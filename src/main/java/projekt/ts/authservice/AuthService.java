@@ -1,5 +1,7 @@
 package projekt.ts.authservice;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
@@ -19,9 +21,14 @@ public class AuthService {
     }
 
     @PostMapping(path = "/login")
-    public Boolean login(@RequestBody AuthUser user) throws SQLException {
+    public ResponseEntity<String> login(@RequestBody AuthUser user) throws SQLException {
         AuthUser userDb = Database.database.getUser(user);
-        return userDb.getHash().equals(user.getHash());
+        ResponseEntity<String> temp;
+        if (userDb.getHash().equals(user.getHash())) {
+            temp = new ResponseEntity<String>(HttpStatus.OK);
+        }
+        else temp= new ResponseEntity<String>(HttpStatus.FORBIDDEN);
+        return temp;
     }
 
     // TODO: możemy zrobić te maile może?
