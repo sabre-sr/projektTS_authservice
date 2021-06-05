@@ -48,14 +48,14 @@ public class Database {
                 """);
     }
 
-    public void addUser(int id, String passwordhash, byte[] salt) throws SQLException {
+    public void addUser(AuthUser user) throws SQLException {
         PreparedStatement statement = conn.prepareStatement("""
                 INSERT INTO auth (id, passwordhash, salt) VALUES
                 (?, ?, ?);
                 """);
-        statement.setInt(1, id);
-        statement.setString(2, passwordhash);
-        statement.setBytes(3, salt);
+        statement.setInt(1, user.getId());
+        statement.setString(2, user.getHash());
+        statement.setBytes(3, user.getSalt());
         statement.execute();
         statement.close();
     }

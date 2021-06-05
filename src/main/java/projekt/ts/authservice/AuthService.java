@@ -31,6 +31,9 @@ public class AuthService {
         return temp;
     }
 
-    // TODO: możemy zrobić te maile może?
+    @PostMapping(path = "register")
+    public void register(@RequestBody AuthUser user) throws SQLException {
+        Database.database.addUser(user);
+    }
 
 }
