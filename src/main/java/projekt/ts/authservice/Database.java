@@ -66,7 +66,10 @@ public class Database {
                 """);
         statement.setInt(1, user.getId());
         ResultSet rs = statement.executeQuery();
-        AuthUser userCred = new AuthUser(rs.getInt("id"), rs.getString("passwordhash"), rs.getBytes("salt"));
+        AuthUser userCred = null;
+        if (rs.next()){
+            userCred = new AuthUser(rs.getInt("id"), rs.getString("passwordhash"), rs.getBytes("salt"));
+        }
         rs.close();
         statement.close();
         return userCred;

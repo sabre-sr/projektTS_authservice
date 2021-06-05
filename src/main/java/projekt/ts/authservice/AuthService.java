@@ -1,9 +1,6 @@
 package projekt.ts.authservice;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
 
@@ -21,7 +18,11 @@ public class AuthService {
         return Database.database.getSalt(new User(id));
     }
 
-
+    @PostMapping(path = "/login")
+    public Boolean login(@RequestBody AuthUser user) throws SQLException {
+        AuthUser userDb = Database.database.getUser(user);
+        return userDb.getHash().equals(user.getHash());
+    }
 
     // TODO: możemy zrobić te maile może?
 

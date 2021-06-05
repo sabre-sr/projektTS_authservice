@@ -45,11 +45,16 @@ public abstract class Passwords {
      * @throws NoSuchAlgorithmException Algorytm szyfrujący jest niedostępny.
      */
     public static boolean validatePassword(@NotNull String haslo, byte[] salt, @NotNull String storedHash) throws InvalidKeySpecException, NoSuchAlgorithmException {
+        byte[] hash = generateHash(haslo, salt);
+        return Arrays.toString(hash).equals(storedHash.toString());
+    }
+
+    private static byte[] generateHash(@NotNull String haslo, byte[] salt) throws NoSuchAlgorithmException, InvalidKeySpecException {
         char[] chars = haslo.toCharArray();
         PBEKeySpec spec = new PBEKeySpec(chars, salt, petle, 64 * 8);
         SecretKeyFactory skf = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
         byte[] hash = skf.generateSecret(spec).getEncoded();
-        return Arrays.toString(hash).equals(storedHash.toString());
+        return hash;
     }
 
     /**
