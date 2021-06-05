@@ -71,4 +71,19 @@ public class Database {
         statement.close();
         return userCred;
     }
+    public AuthUser getSalt(User user) throws SQLException {
+        PreparedStatement statement = conn.prepareStatement("""
+                SELECT * FROM auth WHERE id = ?;
+                """);
+        statement.setInt(1, user.getId());
+        ResultSet rs = statement.executeQuery();
+        AuthUser userCred = null;
+        if (rs.next()) {
+            userCred = new AuthUser(rs.getInt("id"));
+            userCred.setSalt(rs.getBytes("salt"));
+        }
+        rs.close();
+        statement.close();
+        return userCred;
+    }
 }

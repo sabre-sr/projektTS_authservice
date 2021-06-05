@@ -6,6 +6,10 @@ public class AuthUser extends User implements Serializable {
     private String hash;
     private byte[] salt;
 
+    public AuthUser(){
+        super();
+    }
+
     public AuthUser(int id) {
         super(id);
     }
