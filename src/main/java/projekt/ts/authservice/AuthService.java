@@ -25,9 +25,9 @@ public class AuthService {
         AuthUser userDb = Database.database.getUser(user);
         ResponseEntity<String> temp;
         if (userDb.getHash().equals(user.getHash())) {
-            temp = new ResponseEntity<String>(HttpStatus.OK);
+            temp = new ResponseEntity<>(HttpStatus.OK);
         }
-        else temp= new ResponseEntity<String>(HttpStatus.FORBIDDEN);
+        else temp= new ResponseEntity<>(HttpStatus.FORBIDDEN);
         return temp;
     }
 
