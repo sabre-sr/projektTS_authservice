@@ -49,6 +49,7 @@ public class Database {
     }
 
     public void addUser(AuthUser user) throws SQLException {
+        assert user.getId() != 0;
         PreparedStatement statement = conn.prepareStatement("""
                 INSERT INTO auth (id, passwordhash, salt) VALUES
                 (?, ?, ?);

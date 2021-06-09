@@ -32,8 +32,9 @@ public class AuthService {
     }
 
     @PostMapping(path = "register")
-    public void register(@RequestBody AuthUser user) throws SQLException {
+    public AuthUser register(@RequestBody AuthUser user) throws SQLException {
         Database.database.addUser(user);
+        return Database.database.getUser(new User(user.getId()));
     }
 
 }
