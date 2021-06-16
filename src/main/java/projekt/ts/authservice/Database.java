@@ -46,6 +46,8 @@ public class Database {
                 passwordhash varchar(512) not null,
                 salt binary(16));
                 """);
+        statement.execute();
+        statement.close();
     }
 
     public void addUser(AuthUser user) throws SQLException {

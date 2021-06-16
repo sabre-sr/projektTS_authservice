@@ -1,8 +1,8 @@
 package projekt.ts.authservice;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.sql.SQLException;
 
@@ -21,14 +21,12 @@ public class AuthService {
     }
 
     @PostMapping(path = "/login")
-    public ResponseEntity<String> login(@RequestBody AuthUser user) throws SQLException {
+    public AuthUser login(@RequestBody AuthUser user) throws SQLException {
         AuthUser userDb = Database.database.getUser(user);
-        ResponseEntity<String> temp;
-        if (userDb.getHash().equals(user.getHash())) {
-            temp = new ResponseEntity<>(HttpStatus.OK);
+        if (user.getHash().equals(userDb.getHash())) {
+            return user;
         }
-        else temp= new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        return temp;
+        else throw new ResponseStatusException(HttpStatus.FORBIDDEN);
     }
 
     @PostMapping(path = "register")
